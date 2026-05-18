@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@theme {
+  --color-primary: #FF1493;
+  --color-secondary: #F4C2C2;
+  --color-accent: #FFFFFF;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  overflow-x: hidden;
+  font-family: var(--font-b);
+  background: #000;
+  color: #fff;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes rotateFade {
+  from {
+    opacity: 0;
+    transform: rotate(4deg) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) translateY(0);
+  }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+.animate-slideUp {
+  animation: slideUp 0.8s ease-out forwards;
+}
+.animate-scaleIn {
+  animation: scaleIn 0.8s ease-out forwards;
+}
+.animate-rotateFade {
+  animation: rotateFade 0.8s ease-out forwards;
+}
