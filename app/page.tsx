@@ -3,78 +3,33 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { 
+  Sparkles, 
+  Heart, 
   Palette, 
-  ShieldCheck, 
   Zap, 
-  Package, 
   Phone, 
   Mail, 
   MapPin, 
+  Instagram, 
+  Menu, 
+  X, 
+  ArrowRight, 
   CheckCheck, 
   Loader2, 
-  ArrowRight, 
-  Heart, 
-  Users, 
-  Scissors, 
-  Truck, 
-  Instagram,
-  Menu,
-  X,
-  ImageOff
+  ImageOff,
+  Layers,
+  Smile,
+  CheckCircle2
 } from 'lucide-react';
 
 // DESIGN DECISIONS:
 // Layout Energy: editorial
 // Depth Treatment: layered
-// Divider Style: D-QUOTE
-// Typography Personality: mono-accent
+// Divider Style: D-RULE
+// Typography Personality: refined
 
-// --- DATA ---
-const brand = {
-  name: "Tee Nailed It",
-  tagline: "Modern Artistry for the Lagos Woman",
-  description: "Premium nail studio based in Lagos specializing in Acrylic, BIAB, and bespoke custom press-ons for the trend-conscious client.",
-  industry: "beauty",
-  region: "nigeria",
-  currency: "₦"
-};
+// --- Hooks ---
 
-const contact = {
-  instagram: "tee.nailedit",
-  address: "Gbagada / Shomolu, Lagos, Nigeria",
-  whatsapp: ""
-};
-
-const products = [
-  { name: "Acrylic Full Set", description: "Strength and length with premium finish and custom nail art options.", price: "₦15,000", url: "https://images.unsplash.com/photo-1609309267394-9d7b8e01bfe0" },
-  { name: "BIAB Overlay", description: "Builder In A Bottle for natural nail strength and growth support.", price: "₦12,500", url: "https://images.unsplash.com/photo-1631212006469-95f300cb8955" },
-  { name: "Custom Press-on Kit", description: "Reusable salon-quality nails designed to your exact size and style.", price: "₦10,000", url: "https://images.unsplash.com/photo-1719494206679-24a205905578" },
-  { name: "Gel-X Extensions", description: "Soft gel nail extension system for a lightweight, natural feel.", price: "₦18,000", url: "https://images.unsplash.com/photo-1590999893636-503380c789a3" }
-];
-
-const features = [
-  { title: "Bespoke Design", description: "Every set is a unique canvas tailored to your aesthetic.", icon: Palette },
-  { title: "Lasting Quality", description: "Using high-grade pigments and bonding agents for 4+ weeks of wear.", icon: ShieldCheck },
-  { title: "Express Service", description: "Modern techniques like Gel-X for faster, flawless appointments.", icon: Zap },
-  { title: "Mobile Kits", description: "Nationwide shipping for our luxury custom press-on collections.", icon: Package }
-];
-
-const testimonials = [
-  { name: "Eniola Balogun", text: "Best BIAB in Lagos! My natural nails have never been this strong or healthy.", role: "Regular Client" },
-  { name: "Chiamaka Okoro", text: "The custom press-ons were a lifesaver for my wedding. Perfect fit and so sturdy.", role: "Creative Director" },
-  { name: "Tolu Adeyemi", text: "Love the Gbagada studio vibes. Professional service and the art is always 10/10.", role: "Fashion Stylist" }
-];
-
-const galleryImages = [
-  "https://images.unsplash.com/photo-1652869122685-c7792ef56ee2",
-  "https://images.unsplash.com/photo-1610977800691-37674b48df03",
-  "https://images.unsplash.com/photo-1631212006469-95f300cb8955",
-  "https://images.unsplash.com/photo-1722262363236-4f7dd2f2462a",
-  "https://images.unsplash.com/photo-1590999893636-503380c789a3",
-  "https://images.unsplash.com/photo-1610992015732-2449b76344bc"
-];
-
-// --- HOOKS ---
 const useScrollReveal = (threshold = 0.15) => {
   const ref = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -85,20 +40,21 @@ const useScrollReveal = (threshold = 0.15) => {
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [threshold]);
+  }, []);
   return { ref, isVisible };
 };
 
-// --- COMPONENTS ---
-function SafeImage({ src, alt, fill, width, height, className, priority }: {
+// --- Components ---
+
+function SafeImage({ src, alt, fill, width, height, className, priority, fallbackClassName }: {
   src: string; alt: string; fill?: boolean; width?: number; height?: number;
-  className?: string; priority?: boolean;
+  className?: string; priority?: boolean; fallbackClassName?: string;
 }) {
   const [error, setError] = useState(false);
   if (error) {
     return (
-      <div className={`flex items-center justify-center bg-secondary/20 ${className}`}>
-        <ImageOff size={28} className="text-white/20" />
+      <div className={`flex items-center justify-center bg-accent/40 ${fallbackClassName ?? className ?? ''}`}>
+        <ImageOff size={28} className="text-white/10" />
       </div>
     );
   }
@@ -111,10 +67,80 @@ function SafeImage({ src, alt, fill, width, height, className, priority }: {
   );
 }
 
-const Navbar = () => {
+const DividerRule = ({ brand }: { brand: any }) => (
+  <div className="py-16 flex items-center gap-8 px-8 max-w-6xl mx-auto">
+    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+    <span className="text-primary font-heading italic text-sm tracking-[0.2em] uppercase whitespace-nowrap opacity-70">
+      {brand.name}
+    </span>
+    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+  </div>
+);
+
+// --- Content Data ---
+
+const brief = {
+  brand: {
+    name: "Tee Nailed It",
+    tagline: "Flawless Artistry for the Modern Muse",
+    description: "Lagos' premier destination for precision acrylics, BIAB, and bespoke press-on designs. We don't just do nails; we craft confidence in every set.",
+    industry: "beauty",
+    region: "nigeria"
+  },
+  colors: {
+    primary: "#D81B60",
+    secondary: "#FFF1F6",
+    accent: "#1A1A1A"
+  },
+  contact: {
+    instagram: "tee.nailedit",
+    address: "Gbagada & Shomolu, Lagos, Nigeria"
+  },
+  heroImage: {
+    url: "https://images.unsplash.com/photo-1637224230586-efe8e4aef924?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+  },
+  products: [
+    { name: "Full Set Acrylics", price: "₦15,000", description: "Expertly sculpted extensions with premium acrylic.", url: "https://images.unsplash.com/photo-1777287216958-84144739db83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" },
+    { name: "BIAB Strengthening", price: "₦12,500", description: "Builder In A Bottle overlay for natural growth.", url: "https://images.unsplash.com/photo-1647341993366-6cfef02aeb6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" },
+    { name: "Custom Press-On Kit", price: "₦10,000", description: "Reusable, hand-painted luxury nails tailored for you.", url: "https://images.unsplash.com/photo-1719494206679-24a205905578?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" },
+    { name: "Gel-X Extensions", price: "₦14,500", description: "Soft-gel extension system for a lightweight feel.", url: "https://images.unsplash.com/photo-1630843599725-32ead7671867?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" }
+  ],
+  features: [
+    { title: "Precision Artistry", description: "Clean cuticles and perfect apex placement.", icon: Sparkles },
+    { title: "Nail Health First", description: "High-quality products for your nail integrity.", icon: Heart },
+    { title: "Bespoke Designs", description: "From minimalist swirls to complex 3D art.", icon: Palette },
+    { title: "Fast Turnaround", description: "Efficient luxury for the busy woman.", icon: Zap }
+  ],
+  testimonials: [
+    { name: "Tolu Agbaje", text: "The neatest acrylic set I've ever had in Lagos. My cuticles are obsessed!", role: "Regular Client" },
+    { name: "Chinaza Okafor", text: "Her BIAB helped my natural nails grow so long. Best tech in Gbagada.", role: "Fashion Stylist" },
+    { name: "Funmi Adeyemi", text: "The custom press-ons look exactly like salon extensions!", role: "Content Creator" }
+  ],
+  gallery: [
+    "https://images.unsplash.com/photo-1610977800691-37674b48df03?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    "https://images.unsplash.com/photo-1669058611053-ff24fb0f1c33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    "https://images.unsplash.com/photo-1647341993366-6cfef02aeb6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    "https://images.unsplash.com/photo-1564564697030-676227ac3981?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+  ],
+  process: [
+    { number: "01", title: "Inspiration", description: "Send us your design ideas or mood board." },
+    { number: "02", title: "Sizing", description: "Use our simple sizing guide for a perfect fit." },
+    { number: "03", title: "Creation", description: "We hand-paint your set with salon-grade products." },
+    { number: "04", title: "Delivery", description: "Receive your kit with application tools included." }
+  ],
+  stats: [
+    { number: "500+", label: "Sets Created", icon: Layers },
+    { number: "100%", label: "Slay Rate", icon: Smile },
+    { number: "2", label: "Lagos Locations", icon: MapPin }
+  ]
+};
+
+// --- Page Sections ---
+
+export default function Site() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
-  
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener('scroll', onScroll);
@@ -122,43 +148,375 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-primary/95 backdrop-blur-xl border-b border-white/10 py-3' : 'bg-transparent py-6'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <a href="#hero" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 bg-accent flex items-center justify-center rounded-lg text-primary font-black text-xl">T</div>
-          <span className="font-heading font-black text-xl tracking-tight text-white group-hover:text-secondary transition-colors">Tee Nailed It</span>
-        </a>
-        
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide uppercase">
-          {['Gallery', 'Services', 'Process', 'Booking'].map((item) => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="text-white/70 hover:text-accent transition-colors">{item}</a>
-          ))}
-          <a href="#contact" className="bg-accent text-primary px-6 py-2.5 rounded-full font-bold hover:brightness-110 transition shadow-lg">Book Session</a>
+    <main className="relative">
+      {/* Navigation */}
+      <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 py-4 ${scrolled ? 'bg-accent/95 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'}`}>
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <a href="#hero" className="flex items-center gap-2 group">
+            <div className="w-10 h-10 bg-primary text-white flex items-center justify-center font-heading font-black text-xl rounded-lg group-hover:rotate-6 transition-transform">
+              TN
+            </div>
+            <span className="font-heading font-bold text-xl hidden sm:block tracking-tighter uppercase">Tee Nailed It</span>
+          </a>
+          <div className="hidden md:flex items-center gap-10">
+            {['Services', 'Gallery', 'Press-Ons'].map(item => (
+              <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest text-white/70">
+                {item}
+              </a>
+            ))}
+            <a href="#contact" className="bg-primary text-white px-6 py-2.5 rounded-full font-bold text-sm hover:scale-105 transition-all">
+              Book Your Set
+            </a>
+          </div>
+          <button className="md:hidden text-white" onClick={() => setMobileMenu(true)}>
+            <Menu size={28} />
+          </button>
         </div>
-
-        <button className="md:hidden text-white" onClick={() => setMobileMenu(true)}>
-          <Menu size={28} />
-        </button>
-      </div>
+      </nav>
 
       {/* Mobile Sidebar */}
-      <div className={`fixed inset-0 bg-primary z-[60] transition-transform duration-500 ${mobileMenu ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="p-6 flex justify-between items-center border-b border-white/10">
-          <span className="font-heading font-black text-xl">Tee Nailed It</span>
-          <button onClick={() => setMobileMenu(false)} className="text-white"><X size={32} /></button>
-        </div>
-        <div className="flex flex-col p-12 gap-8 text-3xl font-heading font-bold italic">
-          {['Gallery', 'Services', 'Process', 'Booking'].map((item) => (
-            <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMobileMenu(false)}>{item}</a>
-          ))}
-          <a href="#contact" onClick={() => setMobileMenu(false)} className="text-accent">Book Now</a>
+      <div className={`fixed inset-0 z-[110] transition-transform duration-500 ${mobileMenu ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileMenu(false)} />
+        <div className="absolute right-0 top-0 h-full w-[80%] max-w-sm bg-accent p-10 flex flex-col shadow-2xl">
+          <button className="self-end text-white mb-10" onClick={() => setMobileMenu(false)}>
+            <X size={32} />
+          </button>
+          <div className="flex flex-col gap-8">
+            {['Services', 'Gallery', 'Press-Ons'].map(item => (
+              <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-2xl font-heading font-bold text-white hover:text-primary" onClick={() => setMobileMenu(false)}>
+                {item}
+              </a>
+            ))}
+            <a href="#contact" className="bg-primary text-white py-4 rounded-xl font-bold text-center mt-10" onClick={() => setMobileMenu(false)}>
+              Book Your Set
+            </a>
+          </div>
+          <div className="mt-auto border-t border-white/10 pt-10">
+            <p className="text-white/40 text-sm uppercase tracking-widest mb-4">Lagos, Nigeria</p>
+            <div className="flex gap-4">
+              <Instagram size={24} className="text-white/60" />
+            </div>
+          </div>
         </div>
       </div>
-    </nav>
-  );
-};
 
-const ContactForm = () => {
+      {/* Hero Section - HR-A Variant */}
+      <section id="hero" className="min-h-screen relative flex items-center justify-center bg-accent px-6 overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-[32rem] h-[32rem] bg-primary/10 rounded-full blur-[120px] pointer-events-none animate-float" />
+        <div className="absolute bottom-1/4 right-1/3 w-64 h-64 bg-primary/5 rounded-full blur-[80px] pointer-events-none" />
+        
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-10 max-w-4xl max-h-[70vh] rounded-[4rem] overflow-hidden rotate-2 scale-110">
+          <SafeImage src={brief.heroImage.url} alt="Luxury Nail Art" fill className="object-cover" priority />
+        </div>
+
+        <div className="relative z-10 text-center max-w-5xl">
+          <h1 className="font-heading text-6xl md:text-9xl font-black text-white leading-[0.85] tracking-tighter uppercase italic animate-slideUp">
+            Flawless <br /> <span className="text-primary">Artistry</span>
+          </h1>
+          <p className="text-white/50 mt-10 text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed animate-fadeIn" style={{ animationDelay: '400ms' }}>
+            {brief.brand.description}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mt-14 animate-fadeIn" style={{ animationDelay: '800ms' }}>
+            <a href="#contact" className="bg-primary text-white px-12 py-5 font-bold text-lg hover:brightness-110 hover:scale-105 transition-all rounded-full shadow-2xl shadow-primary/20">
+              Book Your Set
+            </a>
+            <a href="#services" className="border border-white/20 text-white px-12 py-5 font-medium text-lg hover:bg-white/5 transition-all rounded-full backdrop-blur-md">
+              View Services
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Features - F-ICON-GRID */}
+      <section className="py-28 px-6 bg-accent border-t border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {brief.features.map((f, i) => (
+              <FeatureCard key={i} f={f} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <DividerRule brand={brief.brand} />
+
+      {/* Gallery Section - Masonry/Portfolio */}
+      <section id="gallery" className="py-28 px-6 bg-secondary/5 overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
+            <div className="max-w-xl">
+              <h2 className="font-heading text-6xl md:text-8xl font-black text-white uppercase leading-none mb-6">
+                The <span className="text-primary italic">Portfolio</span>
+              </h2>
+              <p className="text-white/40 text-lg">Every set is a masterpiece. Recent curation from our Lagos studios.</p>
+            </div>
+            <a href={`https://instagram.com/${brief.contact.instagram}`} className="text-primary font-bold border-b-2 border-primary/20 pb-2 hover:border-primary transition-all">
+              Follow @{brief.contact.instagram}
+            </a>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {brief.gallery.map((src, i) => (
+              <GalleryItem key={i} src={src} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <DividerRule brand={brief.brand} />
+
+      {/* Services Section - P-ASYMMETRIC */}
+      <section id="services" className="py-28 px-6 bg-accent">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="font-heading text-5xl md:text-7xl font-black text-white uppercase tracking-tighter">Service Menu</h2>
+            <div className="w-24 h-1.5 bg-primary mx-auto mt-4" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div className="md:col-span-7 group relative rounded-3xl overflow-hidden h-[500px]">
+              <SafeImage src={brief.products[0].url} alt={brief.products[0].name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
+              <div className="absolute inset-0 bg-gradient-to-t from-accent via-accent/20 to-transparent" />
+              <div className="absolute bottom-0 p-10">
+                <span className="bg-primary text-white text-xs font-bold uppercase tracking-[0.3em] px-4 py-1.5 rounded-full mb-4 inline-block">Best Seller</span>
+                <h3 className="font-heading text-4xl font-bold text-white mb-2">{brief.products[0].name}</h3>
+                <p className="text-white/60 max-w-sm mb-6">{brief.products[0].description}</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-3xl font-black text-primary">{brief.products[0].price}</span>
+                  <a href="#contact" className="bg-white text-accent px-8 py-3 rounded-xl font-bold hover:bg-primary hover:text-white transition-all">Order</a>
+                </div>
+              </div>
+            </div>
+            <div className="md:col-span-5 grid gap-6">
+              {brief.products.slice(1, 3).map((p, i) => (
+                <div key={i} className="bg-secondary/5 rounded-3xl p-8 border border-white/5 flex flex-col justify-between group hover:border-primary/30 transition-all">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-heading text-2xl font-bold text-white group-hover:text-primary transition-colors">{p.name}</h3>
+                      <p className="text-white/40 mt-2 text-sm">{p.description}</p>
+                    </div>
+                    <span className="text-xl font-black text-white/80">{p.price}</span>
+                  </div>
+                  <a href="#contact" className="mt-8 flex items-center gap-2 text-primary font-bold text-sm uppercase tracking-widest">
+                    Book Service <ArrowRight size={16} />
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section - Bonus */}
+      <section id="press-ons" className="py-28 px-6 bg-secondary/5 relative">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 translate-x-20" />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row items-baseline gap-4 mb-20">
+            <h2 className="font-heading text-5xl md:text-7xl font-black text-white uppercase tracking-tighter">The Process</h2>
+            <p className="text-primary font-mono text-sm uppercase tracking-widest">Sharp delivery, nationwide.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {brief.process.map((step, i) => (
+              <ProcessStep key={i} step={step} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About & Stats - Horizontal Split */}
+      <section className="py-28 px-6 bg-accent border-y border-white/5">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20 items-center">
+          <div className="lg:w-1/2">
+            <h2 className="font-heading text-5xl md:text-6xl font-black text-white leading-none mb-8 uppercase">
+              The Artist <br /> <span className="text-primary italic">Behind the Art</span>
+            </h2>
+            <p className="text-white/50 text-xl leading-relaxed mb-10">
+              Based in Gbagada, Tee Nailed It was born out of a passion for transforming nails into wearable art. We believe every set tells a story, and we're here to make yours unforgettable.
+            </p>
+            <div className="flex flex-col gap-6">
+              {brief.stats.map((s, i) => (
+                <div key={i} className="flex items-center gap-6 group">
+                  <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                    <s.icon size={28} />
+                  </div>
+                  <div>
+                    <p className="font-heading text-3xl font-black text-white">{s.number}</p>
+                    <p className="text-white/40 uppercase tracking-widest text-xs font-bold">{s.label}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="lg:w-1/2 relative aspect-square w-full">
+            <div className="absolute -top-6 -left-6 w-full h-full border-2 border-primary/30 rounded-3xl" />
+            <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl">
+              <SafeImage src="https://images.unsplash.com/photo-1610977800691-37674b48df03?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Studio" fill className="object-cover" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials - T-SLIDER */}
+      <section className="py-28 bg-accent overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 mb-16">
+          <h2 className="font-heading text-5xl md:text-7xl font-black text-white uppercase tracking-tighter">Client Love</h2>
+        </div>
+        <div className="w-full flex gap-6 overflow-hidden">
+          <div className="flex w-[200%] gap-6 animate-slide-left hover:[animation-play-state:paused]">
+            {[...brief.testimonials, ...brief.testimonials].map((t, i) => (
+              <div key={i} className="w-80 md:w-[450px] shrink-0 bg-secondary/5 border border-white/5 rounded-[2.5rem] p-10 flex flex-col justify-between shadow-2xl">
+                <div>
+                  <div className="flex gap-1 mb-6">
+                    {[1,2,3,4,5].map(n => <Sparkles key={n} size={14} className="text-primary" fill="currentColor" />)}
+                  </div>
+                  <p className="text-white/80 text-xl font-medium leading-relaxed italic">&ldquo;{t.text}&rdquo;</p>
+                </div>
+                <div className="flex items-center gap-4 mt-10 pt-8 border-t border-white/5">
+                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center font-bold text-lg">
+                    {t.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="font-bold text-white">{t.name}</p>
+                    <p className="text-white/40 text-xs uppercase tracking-widest">{t.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section - C1 Variant */}
+      <section id="contact" className="py-28 px-6 bg-accent relative overflow-hidden">
+        <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-primary/10 to-transparent pointer-events-none" />
+        <div className="max-w-7xl mx-auto grid md:grid-cols-[1fr_1.4fr] gap-20 items-start relative z-10">
+          <div className="sticky top-32">
+            <h2 className="font-heading text-6xl md:text-8xl font-black text-white leading-none uppercase mb-8">
+              Secure <br /> Your <span className="text-primary italic">Slot</span>
+            </h2>
+            <p className="text-white/50 text-xl max-w-sm mb-12">Experience the best in Gbagada. We are currently booking for this month.</p>
+            
+            <div className="space-y-6">
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary transition-colors">
+                  <Instagram size={20} />
+                </div>
+                <div>
+                  <p className="text-white/40 text-xs uppercase tracking-widest">Instagram</p>
+                  <p className="text-white font-bold">@{brief.contact.instagram}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary transition-colors">
+                  <MapPin size={20} />
+                </div>
+                <div>
+                  <p className="text-white/40 text-xs uppercase tracking-widest">Location</p>
+                  <p className="text-white font-bold">{brief.contact.address}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full">
+            <ContactForm />
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-20 px-6 bg-accent border-t border-white/5">
+        <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
+          <div className="w-14 h-14 bg-primary text-white flex items-center justify-center font-heading font-black text-2xl rounded-xl mb-8">
+            TN
+          </div>
+          <h2 className="font-heading text-4xl font-bold text-white mb-2 uppercase tracking-tighter">Tee Nailed It</h2>
+          <p className="text-white/40 uppercase tracking-[0.4em] text-xs font-bold mb-10 italic">Flawless Artistry for the Modern Muse</p>
+          
+          <div className="flex gap-10 mb-16">
+            {['Services', 'Gallery', 'Press-Ons'].map(item => (
+              <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-xs uppercase tracking-widest font-bold text-white/60 hover:text-primary transition-colors">
+                {item}
+              </a>
+            ))}
+          </div>
+          
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-10" />
+          
+          <div className="flex flex-col md:flex-row justify-between w-full text-white/30 text-[10px] uppercase tracking-widest font-bold gap-4">
+            <p>© {new Date().getFullYear()} TEE NAILED IT STUDIO. ALL RIGHTS RESERVED.</p>
+            <p>LAGOS, NIGERIA. SHARP DELIVERY, NATIONWIDE.</p>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
+}
+
+// --- Sub-components ---
+
+function FeatureCard({ f, index }: { f: any, index: number }) {
+  const { ref, isVisible } = useScrollReveal();
+  return (
+    <div 
+      ref={ref}
+      style={{ transitionDelay: `${index * 150}ms` }}
+      className={`bg-white/3 p-8 rounded-3xl border border-white/5 hover:border-primary/40 transition-all duration-500 group relative overflow-hidden ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+    >
+      <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/20 transition-all" />
+      <div className="mb-6 text-primary group-hover:scale-110 transition-transform">
+        <f.icon size={32} />
+      </div>
+      <h3 className="font-heading text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors">{f.title}</h3>
+      <p className="text-white/40 text-sm leading-relaxed">{f.description}</p>
+    </div>
+  );
+}
+
+function GalleryItem({ src, index }: { src: string, index: number }) {
+  const { ref, isVisible } = useScrollReveal(0.05);
+  return (
+    <div 
+      ref={ref}
+      className={`relative aspect-[3/4] rounded-2xl overflow-hidden group ${isVisible ? 'animate-clipReveal' : 'opacity-0'}`}
+      style={{ animationDelay: `${index * 150}ms` }}
+    >
+      <SafeImage 
+        src={src} 
+        alt={`Nail Art ${index + 1}`} 
+        fill 
+        className="object-cover group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0" 
+      />
+      <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-accent scale-50 group-hover:scale-100 transition-transform duration-500">
+          <Sparkles size={20} fill="currentColor" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProcessStep({ step, index }: { step: any, index: number }) {
+  const { ref, isVisible } = useScrollReveal();
+  return (
+    <div 
+      ref={ref}
+      style={{ transitionDelay: `${index * 200}ms` }}
+      className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+    >
+      <div className="font-heading text-[5rem] font-black text-white/5 leading-none absolute -top-12 -left-4 italic">
+        {step.number}
+      </div>
+      <div className="relative z-10 pt-4">
+        <h3 className="font-heading text-2xl font-bold text-white mb-3 flex items-center gap-3">
+          {step.title}
+          <div className="w-2 h-2 rounded-full bg-primary" />
+        </h3>
+        <p className="text-white/40 text-sm leading-relaxed">{step.description}</p>
+      </div>
+    </div>
+  );
+}
+
+function ContactForm() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -171,319 +529,59 @@ const ContactForm = () => {
 
   if (sent) {
     return (
-      <div className="flex flex-col items-center justify-center p-12 text-center animate-scaleIn bg-secondary/10 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-50" />
-        <div className="w-20 h-20 rounded-full bg-accent/20 flex items-center justify-center mb-6 border border-accent/40 relative z-10">
-          <CheckCheck size={32} className="text-accent" />
+      <div className="flex flex-col items-center justify-center p-16 text-center animate-scaleIn bg-secondary/5 rounded-[3rem] border border-primary/20 shadow-2xl relative overflow-hidden min-h-[400px]">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50" />
+        <div className="w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center mb-8 border border-primary/40 relative z-10 animate-float">
+          <CheckCheck size={40} className="text-primary" />
         </div>
-        <h3 className="font-heading text-3xl font-black text-white mb-3 relative z-10">Artistry Confirmed</h3>
-        <p className="text-white/60 max-w-sm text-lg relative z-10">Thank you. We will get back to you shortly to secure your session.</p>
+        <h3 className="font-heading text-4xl font-black text-white mb-4 relative z-10">Slot Secured!</h3>
+        <p className="text-white/60 max-w-sm text-lg relative z-10">Thank you. Tee will reach out via WhatsApp/DM to confirm your session details.</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 bg-primary/40 backdrop-blur-md p-8 sm:p-10 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 blur-[80px] rounded-full pointer-events-none" />
+    <form onSubmit={handleSubmit} className="space-y-6 bg-secondary/5 p-10 sm:p-14 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] rounded-full pointer-events-none" />
       <div className="relative z-10">
-        <h3 className="font-heading text-2xl font-bold text-white mb-8">Secure Your Slot</h3>
-        <div className="space-y-4">
+        <h3 className="font-heading text-3xl font-bold text-white mb-10 uppercase tracking-tighter italic">Session Inquiry</h3>
+        <div className="space-y-5">
           {(['name', 'email', 'phone'] as const).map(field => (
-            <input key={field} type={field === 'email' ? 'email' : 'text'} placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-              value={form[field]} onChange={e => setForm(prev => ({ ...prev, [field]: e.target.value }))} required={field !== 'phone'}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 text-sm outline-none transition-all focus:bg-white/10 focus:border-accent"
-            />
+            <div key={field} className="relative group">
+              <input
+                type={field === 'email' ? 'email' : 'text'}
+                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                value={form[field]}
+                onChange={e => setForm(prev => ({ ...prev, [field]: e.target.value }))}
+                required={field !== 'phone'}
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder-white/20 text-sm outline-none transition-all duration-300 focus:bg-white/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 group-hover:border-white/20"
+              />
+            </div>
           ))}
-          <textarea rows={4} placeholder="Your desired service (e.g., Acrylic Set with Art)" value={form.message}
-            onChange={e => setForm(prev => ({ ...prev, message: e.target.value }))} required
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 text-sm outline-none resize-none transition-all focus:bg-white/10 focus:border-accent"
-          />
+          <div className="relative group">
+            <textarea 
+              rows={4} 
+              placeholder="Your inspiration or service request"
+              value={form.message}
+              onChange={e => setForm(prev => ({ ...prev, message: e.target.value }))}
+              required
+              className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder-white/20 text-sm outline-none resize-none transition-all duration-300 focus:bg-white/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 group-hover:border-white/20"
+            />
+          </div>
         </div>
-        <button type="submit" disabled={loading}
-          className="w-full mt-8 bg-accent text-primary py-4 rounded-xl font-black text-base hover:brightness-110 transition-all disabled:opacity-60 flex justify-center items-center gap-3 group">
-          {loading ? <Loader2 className="animate-spin" size={20} /> : <>Book Now <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" /></>}
+        <button 
+          type="submit" 
+          disabled={loading}
+          className="w-full mt-10 bg-primary text-white py-5 rounded-2xl font-bold text-lg hover:brightness-110 hover:shadow-[0_0_30px_rgba(216,27,96,0.3)] transition-all duration-300 disabled:opacity-60 flex justify-center items-center gap-3 group uppercase tracking-[0.2em]"
+        >
+          {loading ? (
+            <Loader2 className="animate-spin" size={24} />
+          ) : (
+            <>Send Inquiry <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" /></>
+          )}
         </button>
+        <p className="text-center mt-6 text-white/20 text-[10px] uppercase font-bold tracking-widest">We typically respond within 2-4 business hours.</p>
       </div>
     </form>
-  );
-};
-
-export default function Page() {
-  const heroReveal = useScrollReveal();
-  const galleryReveal = useScrollReveal();
-  const servicesReveal = useScrollReveal();
-  const processReveal = useScrollReveal();
-  const featuresReveal = useScrollReveal();
-  const testimonialsReveal = useScrollReveal();
-  const aboutReveal = useScrollReveal();
-  const contactReveal = useScrollReveal();
-
-  return (
-    <main className="relative">
-      <Navbar />
-
-      {/* HERO - Variant HR-C */}
-      <section id="hero" ref={heroReveal.ref} className="min-h-screen grid md:grid-cols-[1fr_1.1fr] items-stretch bg-primary overflow-hidden">
-        <div className={`flex flex-col justify-center px-8 md:px-20 py-32 transition-all duration-1000 ${heroReveal.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
-          <span className="text-accent font-mono text-xs tracking-[0.4em] uppercase mb-6 opacity-80">Street-Luxe Artistry</span>
-          <h1 className="font-heading text-6xl md:text-[5.5rem] font-black text-white leading-[0.9] tracking-tighter">
-            Elevate Your <span className="text-secondary italic">Every</span> Touch
-          </h1>
-          <p className="text-white/60 mt-8 text-xl max-w-md leading-relaxed font-light">
-            Expert nail artistry in Gbagada. From healthy BIAB overlays to custom premium press-ons, we create the vibes you wear.
-          </p>
-          <div className="flex gap-6 mt-12">
-            <a href="#contact" className="bg-accent text-primary px-10 py-4 font-black text-lg rounded-full hover:scale-105 transition-all shadow-xl">Book Session</a>
-            <a href="#services" className="border border-white/20 text-white px-10 py-4 font-bold rounded-full hover:bg-white/10 transition-all">Service Menu</a>
-          </div>
-          <div className="mt-20 flex gap-12 border-t border-white/10 pt-10">
-            <div>
-              <p className="font-heading text-4xl font-black text-white">2k+</p>
-              <p className="text-white/40 text-xs uppercase tracking-widest mt-1">Sets Nailed</p>
-            </div>
-            <div>
-              <p className="font-heading text-4xl font-black text-white">500+</p>
-              <p className="text-white/40 text-xs uppercase tracking-widest mt-1">Happy Clients</p>
-            </div>
-          </div>
-        </div>
-        <div className="relative min-h-[50vh] md:min-h-full">
-          <SafeImage src="https://images.unsplash.com/photo-1610992015732-2449b76344bc" alt="Tee Nailed It Artistry" fill className="object-cover" priority />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/10 to-transparent" />
-          <div className="absolute bottom-10 right-10 flex flex-col items-end">
-            <div className="w-16 h-16 rounded-full border border-white/30 flex items-center justify-center backdrop-blur-md animate-float">
-               <Palette className="text-accent" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* GALLERY - Custom Parallax Drift */}
-      <section id="gallery" ref={galleryReveal.ref} className="py-28 bg-secondary/5 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-20 relative z-10">
-          <p className="text-accent/60 font-mono text-xs tracking-widest mb-4 uppercase">Latest Drops</p>
-          <h2 className="font-heading text-5xl font-black text-white">The Portfolio</h2>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 px-4 max-w-7xl mx-auto">
-          {galleryImages.map((img, i) => (
-            <div key={i} className={`relative overflow-hidden rounded-2xl aspect-[4/5] group transition-all duration-1000 ${galleryReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`} style={{ transitionDelay: `${i * 150}ms` }}>
-              <SafeImage src={img} alt="Nail Art Design" fill className="object-cover transition-transform duration-1000 group-hover:scale-110 parallax-drift" />
-              <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                <span className="font-heading font-bold text-white text-xl">Bespoke Design</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* DIVIDER - D-QUOTE */}
-      <div className="py-24 px-8 text-center bg-accent/5 border-y border-white/5 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--secondary)/5,transparent_70%)]" />
-        <p className="relative font-heading text-3xl md:text-5xl font-black text-white max-w-4xl mx-auto leading-tight italic">
-          &ldquo;Modern Artistry for the Lagos Woman.&rdquo;
-        </p>
-        <p className="relative text-white/30 mt-6 text-xs tracking-[0.5em] uppercase">Tee Nailed It Studio</p>
-      </div>
-
-      {/* SERVICES - Variant V4 (Staggered Children) */}
-      <section id="services" ref={servicesReveal.ref} className="py-28 bg-primary px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <h2 className="font-heading text-6xl font-black text-white">Service Menu</h2>
-            <p className="text-white/40 max-w-xs text-lg font-light">Premium care for your hands, powered by health-first techniques.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((p, i) => (
-              <div key={i} style={{ transitionDelay: `${i * 120}ms` }} className={`group p-6 rounded-3xl border border-white/10 bg-white/3 hover:bg-white/5 transition-all duration-700 ${servicesReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                <div className="relative h-56 rounded-2xl overflow-hidden mb-6">
-                  <SafeImage src={p.url} alt={p.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent" />
-                  <span className="absolute bottom-4 left-4 font-mono text-accent text-sm font-bold uppercase tracking-widest">{brand.currency}{p.price.split('₦')[1]}</span>
-                </div>
-                <h3 className="font-heading text-2xl font-bold text-white mb-3 group-hover:text-secondary transition-colors">{p.name}</h3>
-                <p className="text-white/50 text-sm leading-relaxed mb-6">{p.description}</p>
-                <a href="#contact" className="inline-flex items-center gap-2 text-accent text-xs font-black uppercase tracking-widest border-b border-accent/20 pb-1 hover:border-accent transition-all">Order Now</a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PROCESS - Variant V9 (Counter Rise) */}
-      <section id="process" ref={processReveal.ref} className="py-28 bg-secondary text-primary px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="font-heading text-5xl font-black mb-16">Custom Press-On Order</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-            <div className="hidden md:block absolute top-10 left-1/4 right-1/4 h-px border-t-2 border-primary/10 border-dashed" />
-            {[
-              { n: "01", t: "Measure", d: "Use our easy guide to find your perfect fit from home." },
-              { n: "02", t: "Inspo", d: "Upload your design ideas or choose from our drops." },
-              { n: "03", t: "Slay", d: "Sharp delivery, nationwide. Your kit arrives in 3-5 days." }
-            ].map((s, i) => (
-              <div key={i} style={{ transitionDelay: `${i * 200}ms` }} className={`relative transition-all duration-1000 ${processReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="w-20 h-20 bg-primary text-secondary rounded-full flex items-center justify-center font-heading text-3xl font-black mx-auto mb-6 shadow-xl">{s.n}</div>
-                <h3 className="font-heading text-2xl font-bold mb-3">{s.t}</h3>
-                <p className="opacity-70 leading-relaxed font-medium">{s.d}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-20 flex flex-wrap justify-center gap-10 border-t border-primary/10 pt-10">
-            <div className="flex items-center gap-4">
-              <Scissors className="text-primary/40" />
-              <div className="text-left">
-                <p className="font-heading text-xl font-black">100%</p>
-                <p className="text-xs uppercase tracking-widest opacity-50">Customized</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Truck className="text-primary/40" />
-              <div className="text-left">
-                <p className="font-heading text-xl font-black">3-5 Days</p>
-                <p className="text-xs uppercase tracking-widest opacity-50">Nationwide Delivery</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURES - Variant V2 (Scale Reveal) */}
-      <section id="booking" ref={featuresReveal.ref} className="py-28 bg-primary px-6">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-20 items-center">
-          <div className={`transition-all duration-1000 ${featuresReveal.isVisible ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}>
-            <h2 className="font-heading text-5xl font-black text-white mb-8">Why Tee Nailed It</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {features.map((f, i) => (
-                <div key={i} className="space-y-3 group">
-                  <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-primary transition-all">
-                    <f.icon size={24} />
-                  </div>
-                  <h4 className="font-heading text-xl font-bold text-white">{f.title}</h4>
-                  <p className="text-white/40 text-sm leading-relaxed">{f.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative">
-            <div className="aspect-square relative rounded-[3rem] overflow-hidden rotate-3 shadow-2xl">
-              <SafeImage src="https://images.unsplash.com/photo-1631212006469-95f300cb8955" alt="Nail Studio Interior" fill className="object-cover" />
-              <div className="absolute inset-0 bg-primary/20 mix-blend-overlay" />
-            </div>
-            <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS - Variant V7 (Blur Cascade) */}
-      <section ref={testimonialsReveal.ref} className="py-28 bg-secondary/5 px-6">
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <h2 className="font-heading text-5xl font-black text-white">Client Love</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {testimonials.map((t, i) => (
-            <div key={i} style={{ transitionDelay: `${i * 100}ms` }} className={`bg-primary p-8 rounded-[2rem] border border-white/10 transition-all duration-1000 ${testimonialsReveal.isVisible ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-10 blur-md'}`}>
-              <div className="flex gap-1 mb-6">
-                {[1,2,3,4,5].map(n => <div key={n} className="w-1.5 h-1.5 rounded-full bg-accent" />)}
-              </div>
-              <p className="text-white/80 text-lg leading-relaxed italic mb-8">&ldquo;{t.text}&rdquo;</p>
-              <div className="flex items-center gap-4 border-t border-white/10 pt-6">
-                <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center text-secondary font-black font-heading text-xl">{t.name.charAt(0)}</div>
-                <div className="text-left">
-                  <p className="font-bold text-white leading-none">{t.name}</p>
-                  <p className="text-white/40 text-xs mt-1 uppercase tracking-widest">{t.role}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ABOUT - Variant V3 (Horizontal Split) */}
-      <section ref={aboutReveal.ref} className="py-28 bg-primary overflow-hidden border-y border-white/5">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
-          <div className={`transition-all duration-1000 ${aboutReveal.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
-            <h2 className="font-heading text-5xl font-black text-white mb-8">Meet the Tech</h2>
-            <div className="w-20 h-1 bg-accent mb-8" />
-            <p className="text-white/60 text-xl leading-relaxed font-light mb-10">
-              Tee Nailed It is a boutique nail studio serving Gbagada and Shomolu. We believe nails are the ultimate accessory, blending street-luxe style with professional health-first techniques.
-            </p>
-            <div className="flex gap-12">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-accent mb-3">
-                  <Heart size={24} />
-                </div>
-                <p className="text-xs uppercase tracking-widest font-bold opacity-40">Detail Oriented</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-accent mb-3">
-                  <Users size={24} />
-                </div>
-                <p className="text-xs uppercase tracking-widest font-bold opacity-40">Community Led</p>
-              </div>
-            </div>
-          </div>
-          <div className={`relative transition-all duration-1000 delay-300 ${aboutReveal.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
-             <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
-                <SafeImage src="https://images.unsplash.com/photo-1652868771337-0821db91da16" alt="Studio Vibe" fill className="object-cover" />
-                <div className="absolute inset-0 bg-primary/30" />
-             </div>
-             <div className="absolute -top-6 -right-6 bg-accent text-primary p-6 rounded-2xl shadow-xl">
-                <p className="font-heading font-black text-4xl">5★</p>
-                <p className="text-xs font-bold uppercase tracking-widest">Lagos Rated</p>
-             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CONTACT - Variant C3 */}
-      <section id="contact" ref={contactReveal.ref} className="py-32 px-6 bg-accent/5">
-        <div className={`max-w-2xl mx-auto text-center transition-all duration-1000 ${contactReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-          <p className="text-accent font-mono text-xs tracking-[0.4em] uppercase mb-4 opacity-60">Session Booking</p>
-          <h2 className="font-heading text-6xl font-black text-white mb-6">Secure Your Slot</h2>
-          <p className="text-white/40 mb-14 text-xl font-light">Join the list of Lagos women wearing the ultimate accessory.</p>
-          <div className="text-left">
-            <ContactForm />
-          </div>
-          <div className="mt-16 flex flex-wrap justify-center gap-8">
-            <div className="flex items-center gap-3 text-white/50">
-              <MapPin size={20} className="text-accent/40" />
-              <span className="text-sm">Gbagada / Shomolu, Lagos</span>
-            </div>
-            <a href="https://instagram.com/tee.nailedit" className="flex items-center gap-3 text-white/50 hover:text-accent transition-colors">
-              <Instagram size={20} className="text-accent/40" />
-              <span className="text-sm">@tee.nailedit</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="py-12 px-6 bg-primary border-t border-white/10 text-center">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="text-left">
-               <h3 className="font-heading font-black text-2xl mb-2">Tee Nailed It</h3>
-               <p className="text-white/30 text-sm max-w-xs">{brand.tagline}</p>
-            </div>
-            <div className="flex gap-10 text-xs font-bold uppercase tracking-[0.2em] text-white/40">
-              <a href="#gallery" className="hover:text-white transition-colors">Gallery</a>
-              <a href="#services" className="hover:text-white transition-colors">Services</a>
-              <a href="#booking" className="hover:text-white transition-colors">Booking</a>
-            </div>
-            <div className="flex gap-4">
-               <a href={`https://instagram.com/${contact.instagram}`} className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white transition-all">
-                 <Instagram size={18} />
-               </a>
-            </div>
-          </div>
-          <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-white/20 text-[10px] uppercase tracking-widest font-bold">
-            <p>&copy; {new Date().getFullYear()} Tee Nailed It Studio. Lagos, NG.</p>
-            <div className="flex gap-6">
-              <span>Privacy</span>
-              <span>Terms of Art</span>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </main>
   );
 }
